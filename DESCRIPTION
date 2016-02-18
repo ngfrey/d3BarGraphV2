@@ -1,0 +1,12 @@
+Package: d3BarGraphV2
+Title: d3BarGraph Version 2
+Version: 0.0.0.9000
+Authors@R: person("Nathan", "Frey", email = "nathangfrey@gmail.com", role = c("aut", "cre"))
+Description: This package is built to help me practice building packages
+    and making HTML Widgets with D3 functions used INSIDE the HTMLWidgets.widget
+    function.
+Depends:
+    R (>= 3.2.2)
+License: GPL
+LazyData: true
+RoxygenNote: 5.0.1
