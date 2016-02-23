@@ -4,7 +4,14 @@
 \alias{d3BarGraphV2}
 \title{d3BarGraph Version 2...putting the plotting function inside of HTMLWidgets.widget}
 \usage{
-d3BarGraphV2(message, width = NULL, height = NULL)
+d3BarGraphV2(x, width = NULL, height = NULL)
+}
+\arguments{
+\item{x}{a numerical list of values. Used for bar height}
+
+\item{width}{numeric width for the graph's width in pixels.}
+
+\item{height}{numeric height for the graph's height in pixels.}
 }
 \description{
 <Add Description>

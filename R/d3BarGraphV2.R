@@ -1,15 +1,21 @@
 #' d3BarGraph Version 2...putting the plotting function inside of HTMLWidgets.widget
 #'
 #' <Add Description>
+#' @param x a numerical list of values. Used for bar height
+#' @param height numeric height for the graph's height in pixels.
+#' @param width numeric width for the graph's width in pixels.
 #'
 #' @import htmlwidgets
 #'
 #' @export
-d3BarGraphV2 <- function(message, width = NULL, height = NULL) {
+d3BarGraphV2 <- function(x, width = NULL, height = NULL) {
+  
+  df<- data.frame(x=x)
+  options<- list(width=width, height=height)
 
   # forward options using x
   x = list(
-    message = message
+    data = df, options=options
   )
 
   # create widget
