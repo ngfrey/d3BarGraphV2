@@ -92,7 +92,7 @@ HTMLWidgets.widget({
           .attr("transform", "translate(" + margin.left + ", " + margin.legend_top + ")")
           .attr('y', function(d) {return svgHeight-yScale(d.x);})
           .attr('fill',"teal")
-          .attr('stroke',"#42C0FB");
+          .attr('stroke',"#004d4d");
       
       console.log("possible updated svg below");
       console.log(svg);
@@ -105,9 +105,20 @@ HTMLWidgets.widget({
           .attr('fill', "none")
           .attr('stroke', "black")
           .attr('shape-rendering', "crispEdges")
-          .attr("transform", "translate(" + margin.left + ", " + (svgHeight +margin.legend_top) + ")")
+          .attr("transform", "translate(" + (margin.left - 1) + ", " + (svgHeight +margin.legend_top + 1) + ")")
           .call(xAxis);
           
+    //  d3.selectAll(".tick > text")
+        d3.selectAll(".tick text")
+        .style("font-size", "11px")
+        //.style("stroke", "grey")
+        .style("stroke-width", "0")
+        .style("fill", "black")
+        .style("font-family", "sans-serif")
+        .style('shape-rendering', "crispEdges")
+        .style('stroke-opacity', '0.8');
+        
+        
       console.log("axis below");
       console.log(svg.selectAll(".axis"));
       
