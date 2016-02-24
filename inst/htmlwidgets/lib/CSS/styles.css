@@ -15,4 +15,10 @@
 	font-size: 11px;
 }
 
-*/ 
+ 
+
+.rect: hover {
+	fill: orange;
+}
+
+*/
