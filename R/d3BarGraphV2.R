@@ -24,6 +24,11 @@ d3BarGraphV2 <- function(x, width = NULL, height = NULL) {
     x,
     width = width,
     height = height,
+    sizingPolicy = htmlwidgets::sizingPolicy(
+      viewer.padding = 0,
+      viewer.paneHeight = 500,
+      browser.fill = TRUE
+    ),
     package = 'd3BarGraphV2'
   )
 }

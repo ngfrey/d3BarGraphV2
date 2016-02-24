@@ -6,7 +6,13 @@ HTMLWidgets.widget({
 
   initialize: function(el, width, height) {
     // this makes the svg object and attaches it to the instance variable we call "theChart" in renderValue()
-    var svg = d3.select(el).append("svg") //theChart.svg
+    
+    var svg = d3.select(el).append("svg")
+      .attr('class', "root")
+    //.append("div").classed("svg-container", true).append("svg")
+    //     .attr("preserveAspectRatio", "xMinYMin meet")
+    //     .attr("viewBox", "0 0 width height")
+    //     .classed("svg-content-responsive", true); //theChart.svg
       .attr('width', width)
       .attr('height', height);
       
@@ -32,6 +38,7 @@ HTMLWidgets.widget({
 
     var data = HTMLWidgets.dataframeToD3(x.data);
     var svg = theChart.svg;
+    var margin = {top: 5, right: 30, bottom: 20, left: 30, legend_top: 50};
       console.log("referenced svg object below, svg = theChart.svg");
       console.log(svg);
     
@@ -39,14 +46,14 @@ HTMLWidgets.widget({
       console.log(data);
       console.log(data.length);
 
-    var svgWidth = el.offsetWidth;
-    var svgHeight = el.offsetHeight;
+    var svgWidth = el.offsetWidth - margin.right - margin.left;
+    var svgHeight = el.offsetHeight - (margin.top + margin.bottom + margin.legend_top);
       console.log("svgWidth below");
       console.log(svgWidth);
       console.log("svgHeight below");
       console.log(svgHeight);
    
-
+    var svgBuffer = 1;
     var barPadding = 2;
       console.log("barPadding below:");
       console.log(barPadding);
@@ -56,14 +63,23 @@ HTMLWidgets.widget({
       console.log(barSpacing);
     var barWidth = barSpacing-barPadding;
     var maxValue = d3.max(data, function(d) { return(d.x);} );
+    
     var yScale = d3.scale.linear()
       						 .domain([0, maxValue])
       						 .range([0, svgHeight]);
     
-    console.log("d3 max Value below");
-    console.log(maxValue);
+    var widthPercent = 0.15;  						 
+    
+    var xScale = d3.scale.ordinal()
+                  .domain(d3.range(data.length))
+                  .rangeBands([0, svgWidth], widthPercent); //.15 = 15% of width will be used for bar spacing
+                  
+    var xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient("bottom")
+      .ticks(5);
 
-
+    
       
       svg.selectAll("rect")
         .data(data)
@@ -72,18 +88,63 @@ HTMLWidgets.widget({
           .attr('class', "rect")
           .attr('height', function(d){return yScale(d.x)})
           .attr('width', (barWidth-barPadding))
-          .attr('x', function(d, i) {return i * barSpacing; })
+          .attr('x', function(d, i) {return i * barSpacing;})
+          .attr("transform", "translate(" + margin.left + ", " + margin.legend_top + ")")
           .attr('y', function(d) {return svgHeight-yScale(d.x);})
-          .attr('fill',"teal");
+          .attr('fill',"teal")
+          .attr('stroke',"#42C0FB");
       
       console.log("possible updated svg below");
       console.log(svg);
       
-  
+      svg.selectAll("g")
+        .data(data)
+        .enter()
+          .append("g")
+          .attr('class', "axis")
+          .attr('fill', "none")
+          .attr('stroke', "black")
+          .attr('shape-rendering', "crispEdges")
+          .attr("transform", "translate(" + margin.left + ", " + (svgHeight +margin.legend_top) + ")")
+          .call(xAxis);
+          
+      console.log("axis below");
+      console.log(svg.selectAll(".axis"));
+      
+      
+      
+ /*     
+      svg.selectAll("g")
+        .data(data)
+        .enter()
+          .append("g")
+          .attr('class', "text")
+   */       
   },
 
   resize: function(el, width, height, theChart) {
-
+    
+    console.log("width below:");
+    console.log(width);
+    console.log("el.offsetWidth below");
+    console.log(el.offsetWidth);
+    //console.log(this);
+    console.log("el below");
+    console.log(el);
+    
+  d3.select(el).select("svg") //theChart.svg
+      .attr('width', width)
+      .attr('height', height);
+      
+  console.log("after changing the svg height and width:");
+  console.log(d3.select(el).select("svg"));
+    //  .call(theChart);
+    
+    //console.log("resize svg below:");  
+    //console.log(svg);  
+    //theChart.svg.size([width, height]);
+    //d3.select(el)
+    //  .call(theChart);
   }
 
 });

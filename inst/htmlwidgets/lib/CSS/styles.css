@@ -1,0 +1,16 @@
+.axis .path {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+.axis .line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+.axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}

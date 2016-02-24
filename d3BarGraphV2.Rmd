@@ -91,6 +91,13 @@ relaunchD3<- function(){
 }
 relaunchD3()
 
+rebaseD3<- function(){
+  redoD3()
+  d3BarGraphV2::d3BarGraphV2(numz)
+  }
+rebaseD3()
+
+
 #d3BarGraph::d3BarGraph(numz, width = 300, height = 300) #somehow fails. not sure ATM...
 
 # Working, from Juba: 
