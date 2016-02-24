@@ -5,14 +5,11 @@ HTMLWidgets.widget({
   type: 'output',
 
   initialize: function(el, width, height) {
-    // this makes the svg object and attaches it to the instance variable we call "theChart" in renderValue()
+    // this makes the svg object and attaches it to the
+    //instance variable we call "theChart" in renderValue()
     
     var svg = d3.select(el).append("svg")
       .attr('class', "root")
-    //.append("div").classed("svg-container", true).append("svg")
-    //     .attr("preserveAspectRatio", "xMinYMin meet")
-    //     .attr("viewBox", "0 0 width height")
-    //     .classed("svg-content-responsive", true); //theChart.svg
       .attr('width', width)
       .attr('height', height);
       
@@ -21,52 +18,28 @@ HTMLWidgets.widget({
       svg:svg
     };
 
- 
- //return{}; //returning just the instance 
   }, //with initialize
 
   renderValue: function(el, x, theChart) {
-      console.log("el below");
-      console.log(el);
-      console.log("x from renderValue below");
-      console.log(x);
-      
-      console.log("theChart instance thing below");
-      console.log(theChart);
-      console.log("theChart.svg below");
-      console.log(theChart.svg);
 
     var data = HTMLWidgets.dataframeToD3(x.data);
     var svg = theChart.svg;
-    var margin = {top: 5, right: 30, bottom: 20, left: 30, legend_top: 50};
-      console.log("referenced svg object below, svg = theChart.svg");
-      console.log(svg);
-    
-      console.log("data from HTMLWidgets.datframeToD3 and length below");
-      console.log(data);
-      console.log(data.length);
+    var margin = {top: 5, right: 40, bottom: 20, left: 40, legend_top: 50};
+      console.log("logging el below:");
+      console.log(el);
 
+  // setup figure height, leaving room for axis text
     var svgWidth = el.offsetWidth - margin.right - margin.left;
     var svgHeight = el.offsetHeight - (margin.top + margin.bottom + margin.legend_top);
-      console.log("svgWidth below");
-      console.log(svgWidth);
-      console.log("svgHeight below");
-      console.log(svgHeight);
-   
     var svgBuffer = 1;
     var barPadding = 2;
-      console.log("barPadding below:");
-      console.log(barPadding);
-    
     var barSpacing = svgWidth/data.length;
-      console.log("barspacing below:");
-      console.log(barSpacing);
     var barWidth = barSpacing-barPadding;
     var maxValue = d3.max(data, function(d) { return(d.x);} );
     
     var yScale = d3.scale.linear()
       						 .domain([0, maxValue])
-      						 .range([0, svgHeight]);
+      						 .range([svgHeight, 0]);
     
     var widthPercent = 0.15;  						 
     
@@ -78,6 +51,10 @@ HTMLWidgets.widget({
       .scale(xScale)
       .orient("bottom")
       .ticks(5);
+    var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient("left")
+      .ticks(10);
 
     
       
@@ -86,30 +63,48 @@ HTMLWidgets.widget({
         .enter()
           .append("rect")
           .attr('class', "rect")
-          .attr('height', function(d){return yScale(d.x)})
+          .attr('height', function(d){return svgHeight-yScale(d.x)})
           .attr('width', (barWidth-barPadding))
           .attr('x', function(d, i) {return i * barSpacing;})
           .attr("transform", "translate(" + margin.left + ", " + margin.legend_top + ")")
-          .attr('y', function(d) {return svgHeight-yScale(d.x);})
+          .attr('y', function(d) {return yScale(d.x);})
           .attr('fill',"teal")
           .attr('stroke',"#004d4d");
       
       console.log("possible updated svg below");
       console.log(svg);
-      
-      svg.selectAll("g")
-        .data(data)
-        .enter()
-          .append("g")
-          .attr('class', "axis")
+  
+  // setting up the x-axis:      
+      svg.append("g")
+          .attr('class', "xaxis")
           .attr('fill', "none")
           .attr('stroke', "black")
           .attr('shape-rendering', "crispEdges")
-          .attr("transform", "translate(" + (margin.left - 1) + ", " + (svgHeight +margin.legend_top + 1) + ")")
+          .attr("transform", "translate(" + (margin.left - 1.5) + ", " + (svgHeight +margin.legend_top + 1) + ")")
           .call(xAxis);
+  
+  // And the y-axis        
+      svg.append("g")
+          .attr('class', "yaxis")
+          .attr('fill', "none")
+          .attr('stroke', "black")
+          .attr('shape-rendering', "crispEdges")
+          .attr("transform", "translate(" + (margin.left - 1.5) + ", " + (margin.legend_top + 1) + ")")
+          .call(yAxis);
           
+    //fixing the axis text...so it looks crisp, just like the axis      
     //  d3.selectAll(".tick > text")
-        d3.selectAll(".tick text")
+        d3.selectAll(".xaxis .tick text")
+        .style("font-size", "11px")
+        //.style("stroke", "grey")
+        .style("stroke-width", "0")
+        .style("fill", "black")
+        .style("font-family", "sans-serif")
+        .style('shape-rendering', "crispEdges")
+        .style('stroke-opacity', '0.8');
+
+// and the y axis
+        d3.selectAll(".yaxis .tick text")
         .style("font-size", "11px")
         //.style("stroke", "grey")
         .style("stroke-width", "0")
@@ -119,8 +114,8 @@ HTMLWidgets.widget({
         .style('stroke-opacity', '0.8');
         
         
-      console.log("axis below");
-      console.log(svg.selectAll(".axis"));
+      console.log("xaxis below");
+      console.log(svg.selectAll(".xaxis"));
       
       
       
