@@ -69,8 +69,18 @@ HTMLWidgets.widget({
           .attr("transform", "translate(" + margin.left + ", " + margin.legend_top + ")")
           .attr('y', function(d) {return yScale(d.x);})
           .attr('fill',"teal")
-          .attr('stroke',"#004d4d");
-      
+          .attr('stroke',"#004d4d")
+  			  .on("mouseover", function() {
+  			   		d3.select(this)
+  			   			.attr("fill", "orange");
+  			   })
+  			   .on("mouseout", function(d) {
+  				   d3.select(this)
+  				    .transition()
+  				    .duration(300)
+  						.attr("fill", "teal");
+  			   });
+        
       console.log("possible updated svg below");
       console.log(svg);
   
@@ -80,7 +90,7 @@ HTMLWidgets.widget({
           .attr('fill', "none")
           .attr('stroke', "black")
           .attr('shape-rendering', "crispEdges")
-          .attr("transform", "translate(" + (margin.left - 1.5) + ", " + (svgHeight +margin.legend_top + 1) + ")")
+          .attr("transform", "translate(" + (margin.left - 2) + ", " + (svgHeight +margin.legend_top + 1) + ")")
           .call(xAxis);
   
   // And the y-axis        
@@ -89,7 +99,7 @@ HTMLWidgets.widget({
           .attr('fill', "none")
           .attr('stroke', "black")
           .attr('shape-rendering', "crispEdges")
-          .attr("transform", "translate(" + (margin.left - 1.5) + ", " + (margin.legend_top + 1) + ")")
+          .attr("transform", "translate(" + (margin.left - 2) + ", " + (margin.legend_top + 1) + ")")
           .call(yAxis);
           
     //fixing the axis text...so it looks crisp, just like the axis      
