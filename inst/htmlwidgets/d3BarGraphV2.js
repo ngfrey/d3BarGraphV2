@@ -78,7 +78,7 @@ HTMLWidgets.widget({
   			    svg.append("text")
 					   .attr("id", "tooltip")
 					   .attr("x", xPosition)
-					   .attr("y", yPosition)
+					   .attr("y", yPosition + margin.top + 7) //moving the basic tooltip down
 					   .attr("text-anchor", "middle")
 					   .attr("font-family", "sans-serif")
 					   .attr("font-size", "11px")
