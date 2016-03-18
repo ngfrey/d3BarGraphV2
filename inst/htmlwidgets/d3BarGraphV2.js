@@ -171,7 +171,11 @@ HTMLWidgets.widget({
   resize: function(el, width, height, theChart) {
     // Re-render the previous value, if any
     if (theChart.lastValue) {
+      d3.selectAll('g').remove();  
+      d3.selectAll('rect').remove();
+      //d3.selectAll('svg').remove();
       this.renderValue(el, theChart.lastValue, theChart);
+
     }
   }
 
