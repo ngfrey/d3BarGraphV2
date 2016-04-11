@@ -99,10 +99,10 @@ HTMLWidgets.widget({
   						.attr("fill", "teal");
   			   });
         
-      console.log("possible updated svg below");
-      console.log(svg);
+    // console.log("possible updated svg below");
+    //console.log(svg);
   
-  // setting up the x-axis:      
+    // setting up the x-axis:      
       svg.append("g")
           .attr('class', "xaxis")
           .attr('fill', "none")
@@ -111,7 +111,7 @@ HTMLWidgets.widget({
           .attr("transform", "translate(" + (margin.left - 2) + ", " + (svgHeight +margin.legend_top + 1) + ")")
           .call(xAxis);
   
-  // And the y-axis        
+    // And the y-axis        
       svg.append("g")
           .attr('class', "yaxis")
           .attr('fill', "none")
@@ -120,8 +120,7 @@ HTMLWidgets.widget({
           .attr("transform", "translate(" + (margin.left - 2) + ", " + (margin.legend_top + 1) + ")")
           .call(yAxis);
           
-    //fixing the axis text...so it looks crisp, just like the axis      
-    //  d3.selectAll(".tick > text")
+    //fixing the axis text...so it looks crisp      
         d3.selectAll(".xaxis .tick text")
         .style("font-size", "11px")
         //.style("stroke", "grey")
@@ -131,7 +130,7 @@ HTMLWidgets.widget({
         .style('shape-rendering', "crispEdges")
         .style('stroke-opacity', '0.8');
 
-// and the y axis
+    // and the y axis
         d3.selectAll(".yaxis .tick text")
         .style("font-size", "11px")
         //.style("stroke", "grey")
@@ -141,32 +140,8 @@ HTMLWidgets.widget({
         .style('shape-rendering', "crispEdges")
         .style('stroke-opacity', '0.8');
 
-// tooltip section below:  
-/* 
-    var tooltip = d3.select(el).append('div'); 
-    tooltip.attr('id', 'tooltip-div');
-      console.log("tooltip below");
-      console.log(tooltip);
-  */       
-      console.log("xaxis below");
-      console.log(svg.selectAll(".xaxis"));
-      
-      
-      
- /*     
-      svg.selectAll("g")
-        .data(data)
-        .enter()
-          .append("g")
-          .attr('class', "text")
-   */       
+     
   },
-
-//  resize: function(el, width, height, theChart) {
-    
-    
-    
-//  }//with new resize
 
   resize: function(el, width, height, theChart) {
     // Re-render the previous value, if any
@@ -179,45 +154,6 @@ HTMLWidgets.widget({
     }
   }
 
-/*    
-    console.log("width below:");
-    console.log(width);
-    console.log("el.offsetWidth below");
-    console.log(el.offsetWidth);
-    //console.log(this);
-    console.log("el below");
-    console.log(el);
-    
-  d3.select(el).select("svg") //theChart.svg
-      .attr('width', width)
-      .attr('height', height);
-      
-  console.log("after changing the svg height and width:");
-  console.log(d3.select(el).select("svg"));
-    //  .call(theChart);
-    
-  console.log("d3.select(el).select('svg').remove() below:");
-  console.log(d3.select(el).select("svg").remove());  
-  
-  console.log("el below", d3.select(el));
-  console.log("refreshed with new svg:")
-  
-  var svg = d3.select(el).append("avg")
-              .attr('width', el.offsetWidth)
-              .attr('height', el.offsetHeight);
-              
-              
-  
-              
-  
-    //console.log("resize svg below:");  
-    //console.log(svg);  
-    //theChart.svg.size([width, height]);
-    //d3.select(el)
-    //  .call(theChart);
-    
-  */  
-    
- // }//with resize method, if I uncommment the above section
+
 
 });

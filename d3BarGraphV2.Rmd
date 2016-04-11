@@ -5,21 +5,22 @@ date: "February 18, 2016"
 output: html_document
 ---
 
-This is my attempt to make a bar graph using R and D3 keeping all the D3 stuff inside of the HTMLWidgets.widget function. I'm using GitHub only as an online backup. This is simply a testing ground. 
+This is an attempt to make a bar graph using R and D3 keeping all the D3 stuff inside of the HTMLWidgets.widget function. I'm using GitHub only as an online backup. This is simply a testing ground. 
 
 ```{r}
 library(htmlwidgets)
 library(roxygen2)
 library(devtools)
-library(jsonlite)
-library(networkD3) #For examples and MisLinks and MisNodes data
+#library(jsonlite)
+#library(networkD3) #For examples and MisLinks and MisNodes data
 
 ```
 A quick function to examine data:  
 ```{r}
 lu<- function(x){length(unique(x))}
-
+#sapply(data, lu)
 ```
+
 Get the data:
 ```{r}
 set.seed(123)
@@ -27,7 +28,9 @@ numz<- round(runif(15, min=3, max=20),0)
 numz
 ```
 
-Now, we'll set up the file scaffolding. I need to find out if running these after I have done work on the widget JavaScript code and R code will wipe out my work. I'll just run this onceInstead, only run the devtools::install() to rebuild the widget and launch it.  
+Now, we'll set up the file scaffolding. If your project folder is nested, i.e. inside your current working directory in R...copy the inst, R, DESCRIPTION, NAMESPACE, and any other HTML, CSS, or function files out. Do NOT copy the R project. PASTE them into the folder directory above the one they got created in, then delete the folder from which the above originated. This deletes the extra R project that was created. This process does not need to be repeated in order to make changes to the JavaScript, R, CSS, or other function files you wish to update, test, and if successful...deploy to the internet, company server, personal server, etc.  These sections are commented out, however you only have to uncomment if this is your initial project setup. 
+
+
 ```{r}
 
 #create("d3BarGraphV2") #create the package skelton
@@ -36,20 +39,18 @@ Now, we'll set up the file scaffolding. I need to find out if running these afte
 
 Now make the necessary edits to the .yaml file, pyramid.R file, and pyramid.js files.   
 
-I edited the yaml file, added the D3 library as a dependecy, and then told it to use the style.css as the stylesheet. I am not sure if this is correct, but I am going to give it a try.
+In this version of the document, the .yaml file has already been edited. Inside the .yaml file, the D3 library was added as a dependecy and style.css added as the stylesheet. At present, the CSS stylesheet is commented out, but could be used in place of current in-line styles assigned within the JavaScript syntax. 
 
 The next steps are to build the package, as per Hilary Parker's guide...  
 ```{r}
 getwd()
-
-
 #If needed for testing:
-setwd("/Users/Nathan/Dropbox/R Projects Personal/d3BarGraphV2")
+#setwd("/Users/Nathan/Dropbox/R Projects Personal/d3BarGraphV2")
 
-document() #create the man folder, automatically generate the pyramid.Rd file
+#document() #create the man folder, automatically generate the pyramid.Rd file
 ```
 
-Now to install and run the package! Hopefully it works (Fingers crossed)  
+Now to install and run the package! The project created is named "d3BarGraphV2".
 
 ```{r}
 getwd()
@@ -58,53 +59,73 @@ getwd()
 install("d3BarGraphV2")
 ```
 
-Let's load the library and make a go at it!
+Next step, load the library and make a go at running the code!
 
 ```{r}
 library(d3BarGraphV2)
-d3BarGraphV2::d3BarGraphV2(numz, width = 300, height = 300) #somehow fails. How do I find out why/where?
+d3BarGraphV2::d3BarGraphV2(numz)  # default. Fills screen
+d3BarGraphV2::d3BarGraphV2(numz, width = 300, height = 300) # with width and height preferences defined
 
 ```
 
 
 For quickly rebuilding and attempting to launch:  
+
+This is a function written to REDO syntax and documentation, re-install the package, and launch it with the new changes reflected, using default height and width parameters...data set by numerical vector "numz". It is named *redoD3*. You *will* need to change the project file path to yours. Here I left mine as an example. 
+
 ```{r}
-#Making function
 redoD3<- function(){
-setwd("/Users/Nathan/Dropbox/R Projects Personal/d3BarGraphV2")
+setwd("/Users/Nathan/Dropbox/R Projects Personal/d3BarGraphV2")  
 document() #create the man folder, automatically generate the pyramid.Rd file
 setwd("..")
 install("d3BarGraphV2")
 library(d3BarGraphV2)
-} #End  redoD3 Function
+} # End redoD3 function
 
+```
+
+Usage:
+```{r}
 # Usage
 redoD3()
 
+```
 
 
 
+
+
+*Relaunch D3 with height and width set to 500px each *
+```{r}
 relaunchD3<- function(){
   redoD3()
   d3BarGraphV2::d3BarGraphV2(numz, width = 500, height = 500)
   
 }
 relaunchD3()
+```
 
+
+
+*Rebase Function...Relaunch D3 with defaults for width, height, and data = numz. Fills screen* 
+```{r}
 rebaseD3<- function(){
   redoD3()
   d3BarGraphV2::d3BarGraphV2(numz)
   }
 rebaseD3()
 
+```
 
-#d3BarGraph::d3BarGraph(numz, width = 300, height = 300) #somehow fails. not sure ATM...
-
-# Working, from Juba: 
+Examples:
+```{r}
 d3BarGraphV2(c(1,5,10,6))
 d3BarGraphV2(sample(1:20, 50, replace=TRUE))
-
 d3BarGraphV2::d3BarGraphV2(numz, width = 500, height = 500)
+```
+
+
+
 
 #set.seed(123)
 # numz<- round(runif(15, min=3, max=20),0) #15 whole numbers between 3 and 20
