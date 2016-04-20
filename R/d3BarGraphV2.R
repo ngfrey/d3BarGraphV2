@@ -40,7 +40,7 @@ d3BarGraphV2 <- function(x, width = NULL, height = NULL) {
 #'
 #' @param outputId output variable to read from
 #' @param width,height Must be a valid CSS unit (like \code{'100\%'},
-#'   \code{'400px'}, \code{'auto'}) or a number, which will be coerced to a
+#'   \code{'600px'}, \code{'auto'}) or a number, which will be coerced to a
 #'   string and have \code{'px'} appended.
 #' @param expr An expression that generates a d3BarGraphV2
 #' @param env The environment in which to evaluate \code{expr}.
@@ -50,7 +50,7 @@ d3BarGraphV2 <- function(x, width = NULL, height = NULL) {
 #' @name d3BarGraphV2-shiny
 #'
 #' @export
-d3BarGraphV2Output <- function(outputId, width = '100%', height = '400px'){
+d3BarGraphV2Output <- function(outputId, width = '100%', height = '600px'){
   shinyWidgetOutput(outputId, 'd3BarGraphV2', width, height, package = 'd3BarGraphV2')
 }
 
