@@ -6,7 +6,7 @@
 \alias{renderD3BarGraphV2}
 \title{Shiny bindings for d3BarGraphV2}
 \usage{
-d3BarGraphV2Output(outputId, width = "100\%", height = "400px")
+d3BarGraphV2Output(outputId, width = "auto", height = "400px")
 
 renderD3BarGraphV2(expr, env = parent.frame(), quoted = FALSE)
 }

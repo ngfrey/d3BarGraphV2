@@ -21,8 +21,14 @@ HTMLWidgets.widget({
   }, //with initialize
 
   renderValue: function(el, x, theChart) {
+    
+    if(theChart.lastValue){
+      d3.selectAll('g').remove();
+      d3.selectAll('rect').remove();
+    };
 
     theChart.lastValue = x; // from jcheng bubbles example 
+    
     var data = HTMLWidgets.dataframeToD3(x.data);
     var svg = theChart.svg;
     var margin = {top: 5, right: 40, bottom: 20, left: 40, legend_top: 50};
@@ -142,6 +148,8 @@ HTMLWidgets.widget({
         .style("font-family", "sans-serif")
         .style('shape-rendering', "crispEdges")
         .style('stroke-opacity', '0.8');
+        
+// Now to remove the old plotted graphics, axes, and scales. 
 
      
   },
