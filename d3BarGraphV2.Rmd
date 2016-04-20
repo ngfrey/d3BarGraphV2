@@ -9,19 +9,13 @@ This is an attempt to make a bar graph using R and D3 keeping all the D3 stuff i
 
 ```{r}
 library(htmlwidgets)
-library(roxygen2)
+#library(roxygen2)
 library(devtools)
-#library(jsonlite)
 #library(networkD3) #For examples and MisLinks and MisNodes data
 
 ```
-A quick function to examine data:  
-```{r}
-lu<- function(x){length(unique(x))}
-#sapply(data, lu)
-```
 
-Get the data:
+Make the data:
 ```{r}
 set.seed(123)
 numz<- round(runif(15, min=3, max=20),0)
@@ -33,13 +27,13 @@ Now, we'll set up the file scaffolding. If your project folder is nested, i.e. i
 
 ```{r}
 
-#create("d3BarGraphV2") #create the package skelton
+#devtools::create("d3BarGraphV2") #create the package skelton
 #htmlwidgets::scaffoldWidget("d3BarGraphV2") 
 ```
 
-Now make the necessary edits to the .yaml file, pyramid.R file, and pyramid.js files.   
+Now make the necessary edits to the .yaml file, d3BarGraphV2.R file, and d3BarGraphV2.js files.   
 
-In this version of the document, the .yaml file has already been edited. Inside the .yaml file, the D3 library was added as a dependecy and style.css added as the stylesheet. At present, the CSS stylesheet is commented out, but could be used in place of current in-line styles assigned within the JavaScript syntax. 
+In this version of the document, the .yaml file has already been edited. Inside the .yaml file, the D3 library was added as a dependecy and style.css added as the stylesheet. JQuery is also added, but not currently needed. Furthermore, at present, the CSS stylesheet is commented out, but could be used in place of current in-line styles assigned within the JavaScript syntax. 
 
 The next steps are to build the package, as per Hilary Parker's guide...  
 ```{r}
@@ -47,7 +41,7 @@ getwd()
 #If needed for testing:
 #setwd("/Users/Nathan/Dropbox/R Projects Personal/d3BarGraphV2")
 
-#document() #create the man folder, automatically generate the pyramid.Rd file
+#devtools::document() #create the man folder, automatically generate the pyramid.Rd file
 ```
 
 Now to install and run the package! The project created is named "d3BarGraphV2".
@@ -56,7 +50,7 @@ Now to install and run the package! The project created is named "d3BarGraphV2".
 getwd()
 setwd("..")
 getwd()
-install("d3BarGraphV2")
+devtools::install("d3BarGraphV2")
 ```
 
 Next step, load the library and make a go at running the code!
@@ -76,9 +70,9 @@ This is a function written to REDO syntax and documentation, re-install the pack
 ```{r}
 redoD3<- function(){
 setwd("/Users/Nathan/Dropbox/R Projects Personal/d3BarGraphV2")  
-document() #create the man folder, automatically generate the pyramid.Rd file
+devtools::document() #create the man folder, automatically generate the .Rd file
 setwd("..")
-install("d3BarGraphV2")
+devtools::install("d3BarGraphV2")
 library(d3BarGraphV2)
 } # End redoD3 function
 
@@ -119,8 +113,8 @@ rebaseD3()
 
 Examples:
 ```{r}
-d3BarGraphV2(c(1,5,10,6))
-d3BarGraphV2(sample(1:20, 50, replace=TRUE))
+d3BarGraphV2::d3BarGraphV2(c(1,5,10,6))
+d3BarGraphV2::d3BarGraphV2(sample(1:20, 50, replace=TRUE))
 d3BarGraphV2::d3BarGraphV2(numz, width = 500, height = 500)
 ```
 

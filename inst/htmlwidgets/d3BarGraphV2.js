@@ -36,17 +36,21 @@ HTMLWidgets.widget({
     var barPadding = 2;
     var barSpacing = svgWidth/data.length;
     var barWidth = barSpacing-barPadding;
-    var maxValue = d3.max(data, function(d) { return(d.x);} );
+    var maxValue = d3.max(data, function(d) { return(d.x);} ); //using d.x because the column in the dataframe from R is called 'x'
     
+// setup scales, so all data values fit onto our canvas, do not paint outside the lines with your data!     
     var yScale = d3.scale.linear()
       						 .domain([0, maxValue])
       						 .range([svgHeight, 0]);
     
-    var widthPercent = 0.15;  						 
+ 		var widthPercent = 0.15; 				 
     
     var xScale = d3.scale.ordinal()
                   .domain(d3.range(data.length))
                   .rangeBands([0, svgWidth], widthPercent); //.15 = 15% of width will be used for bar spacing
+                  // the rangeBands function comes from D3, it takes in a min, max, and % of bar width for bar spacing, I set this to be 15% of the total bar width. 
+                  
+//Setting up the axes, we have both an x axis and a y axis
                   
     var xAxis = d3.svg.axis()
       .scale(xScale)
@@ -57,7 +61,7 @@ HTMLWidgets.widget({
       .orient("left")
       .ticks(10);
 
-    
+// The code below actually makes the rectanges we want to have, binds them to the data, and sets the desired attributes, like color, and behaviors when the mouse is placed on a given rectangle     
       
       svg.selectAll("rect")
         .data(data)
@@ -74,11 +78,14 @@ HTMLWidgets.widget({
   			  .on("mouseover", function(d) {
   			    var xPosition = parseFloat(d3.select(this).attr("x")) + (xScale.rangeBand()/2) + margin.left;
   			    var yPosition = parseFloat(d3.select(this).attr("y")) +7;
-  			    
+
+
+// This code puts labels on each bar. Since the labels are just text, we append text to the SVG canvas
+// Note: we are still inside of the .on("mouseover" code's callback function
   			    svg.append("text")
 					   .attr("id", "tooltip")
 					   .attr("x", xPosition)
-					   .attr("y", yPosition + margin.top + 7) //moving the basic tooltip down
+					   .attr("y", yPosition + margin.top + 7) //moving the simple tooltip down
 					   .attr("text-anchor", "middle")
 					   .attr("font-family", "sans-serif")
 					   .attr("font-size", "11px")
@@ -88,7 +95,7 @@ HTMLWidgets.widget({
   			    
   			    
   			    
-  			   		d3.select(this)
+  			   	d3.select(this)
   			   			.attr("fill", "orange");
   			   })
   			   .on("mouseout", function(d) {
@@ -98,9 +105,7 @@ HTMLWidgets.widget({
   				    .duration(300)
   						.attr("fill", "teal");
   			   });
-        
-    // console.log("possible updated svg below");
-    //console.log(svg);
+      
   
     // setting up the x-axis:      
       svg.append("g")
@@ -123,7 +128,6 @@ HTMLWidgets.widget({
     //fixing the axis text...so it looks crisp      
         d3.selectAll(".xaxis .tick text")
         .style("font-size", "11px")
-        //.style("stroke", "grey")
         .style("stroke-width", "0")
         .style("fill", "black")
         .style("font-family", "sans-serif")
@@ -133,7 +137,6 @@ HTMLWidgets.widget({
     // and the y axis
         d3.selectAll(".yaxis .tick text")
         .style("font-size", "11px")
-        //.style("stroke", "grey")
         .style("stroke-width", "0")
         .style("fill", "black")
         .style("font-family", "sans-serif")

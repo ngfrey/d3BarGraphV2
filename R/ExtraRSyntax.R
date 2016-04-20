@@ -1,5 +1,6 @@
 # Extra R functions
 
+library(jsonlite)
 set.seed(123)
 numz<- round(runif(15, min=3, max=20),0) #15 whole numbers between 3 and 20
 makeJSON<- function(numz) {
