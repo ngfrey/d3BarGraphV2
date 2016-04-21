@@ -85,11 +85,18 @@ redoD3()
 
 ```
 
+*Rebase Function...Relaunch D3 with defaults for width, height, and data = numz. Fills screen* 
+```{r}
+rebaseD3<- function(){
+  redoD3()
+  d3BarGraphV2::d3BarGraphV2(numz)
+  }
+rebaseD3()
+
+```
 
 
-
-
-*Relaunch D3 with height and width set to 500px each *
+*Relaunch D3 with height and width set to 500px each*
 ```{r}
 relaunchD3<- function(){
   redoD3()
@@ -101,21 +108,43 @@ relaunchD3()
 
 
 
-*Rebase Function...Relaunch D3 with defaults for width, height, and data = numz. Fills screen* 
-```{r}
-rebaseD3<- function(){
-  redoD3()
-  d3BarGraphV2::d3BarGraphV2(numz)
-  }
-rebaseD3()
-
-```
 
 Examples:
 ```{r}
 d3BarGraphV2::d3BarGraphV2(c(1,5,10,6))
 d3BarGraphV2::d3BarGraphV2(sample(1:20, 50, replace=TRUE))
 d3BarGraphV2::d3BarGraphV2(numz, width = 500, height = 500)
+```
+
+An example of using this HTMLWidget in Shiny is available in the "ShinyExampleScript" directory. I have pasted the code from the example file in the code chunk below:
+```{r}
+
+library(shiny)
+library(d3BarGraphV2)
+numz<- round(((runif(20)*30)+1),0)
+numz
+
+ui <- fluidPage(
+  h1("Example D3 Application in Shiny"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("nobs", "Number of observations to use", 10)
+    ),
+    mainPanel(
+      d3BarGraphV2Output("plot", width = '100%')
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderD3BarGraphV2({
+    d3BarGraphV2(head(numz, input$nobs))
+  })
+}
+
+shinyApp(ui, server, options=list(launch.browser=TRUE))
+
+
 ```
 
 
