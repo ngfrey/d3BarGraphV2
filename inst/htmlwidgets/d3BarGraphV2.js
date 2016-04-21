@@ -25,7 +25,7 @@ HTMLWidgets.widget({
     if(theChart.lastValue){
       d3.selectAll('g').remove();
       d3.selectAll('rect').remove();
-    };
+    }
 
     theChart.lastValue = x; // from jcheng bubbles example 
     
